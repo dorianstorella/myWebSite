@@ -30,6 +30,7 @@ function startGame()
 {   
 
     game.setAttribute("style","display:none")
+    
     //refaire avec un for
     let tray = 
     [
@@ -77,7 +78,7 @@ function startGame()
                 if (x % 2 == 0 )
                 {
                     div = document.createElement("th")
-                    div.setAttribute("style"," color:red;background-color:brown;height:50px;width:50px; ")
+                    div.setAttribute("style"," color:red;background-color:black;height:50px;width:50px; ")
                     tr.appendChild(div)
                 }
                 else if (x % 2 != 0)
@@ -99,38 +100,27 @@ function startGame()
                 else if (x % 2 != 0)
                 {
                     div = document.createElement("th")
-                    div.setAttribute("style"," color:red;background-color:brown;height:20px;width:20px; ")
+                    div.setAttribute("style"," color:red;background-color:black;height:50px;width:50px; ")
                     tr.appendChild(div)
                 }
-            }   
-            /*if (tray[y][x] === "pionR")
+            } 
+
+            if (tray[y][x] === "pionR")
             {
-                div = document.createElement("th")
-                div.setAttribute("style"," color:red;background-color:brown;height:20px;width:20px; ")
-                div.innerHTML = "rouge"
-                tr.appendChild(div)
+
+                piondiv = document.createElement("div")
+                piondiv.setAttribute("style","background-color:red;width:30px;height:30px;border-radius:25px;margin:auto;")
+                div.appendChild(piondiv)
+                
             }
             
-            if (tray[y][x] === "pionW")
+            else if (tray[y][x] === "pionW")
             {
-                div = document.createElement("th")
-                div.setAttribute("style","color:white;background-color:brown;height:20px;width:20px; ")
-                div.innerHTML = "blanc"
-                tr.appendChild(div)
+                piondiv = document.createElement("div")
+                piondiv.setAttribute("style","background-color:white;width:30px;height:30px;border-radius:25px;margin:auto;")
+                div.appendChild(piondiv)
             }
-            if (tray[y][x] === 000 )
-            {
-                div = document.createElement("th")
-                div.setAttribute("style","background-color:white;height:20px;width:20px; ")
-                tr.appendChild(div)
-
-            }
-            else if (tray[y][x] === "  ")
-            {
-                div = document.createElement("th")
-                div.setAttribute("style","background-color:white;height:20px;width:20px; ")
-                tr.appendChild(div)
-            }*/
+           
             
         }
 
@@ -138,14 +128,15 @@ function startGame()
         
             tr = document.createElement("tr")
             plateau.appendChild(tr)
-    
+        //afficher regle
+        //une case avec  ne plus afficher se message == bool sur restart
+        // voir si reprendre la boucle for si faut reafficher 
+        // drag and drop https://www.javascripttutorial.net/web-apis/javascript-drag-and-drop/
     }
 }
 
-function deplacement()
+function game()
 {
-    console.log(trayval);
-    console.log(tray );
     // deplacement : pour pouvoir se deplacer remarque
     // selon le pion de couleur il doit aller plus haut ou plus bas 
     // et doit etre inferieure ou supperieure de 1 mais strictement 1
