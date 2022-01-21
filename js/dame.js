@@ -46,6 +46,7 @@ function startGame()
         [000,"pionW", 000, "pionW", 000, "pionW", 000, "pionW", 000, "pionW"],
     ]
    // console.log(tray[0][0])
+   // condition si pas de couleur choisie 
     color = document.querySelector("input[name=color]:checked").value;
     
    
@@ -78,13 +79,14 @@ function startGame()
                 if (x % 2 == 0 )
                 {
                     div = document.createElement("th")
-                    div.setAttribute("style"," color:red;background-color:black;height:50px;width:50px; ")
+                    div.setAttribute("style"," color:red;background-color:black;height:50px;width:50px;")
+                    div.setAttribute("class","container-pion")
                     tr.appendChild(div)
                 }
                 else if (x % 2 != 0)
                 {
                     div = document.createElement("th")
-                    div.setAttribute("style"," color:red;background-color:#fff;height:50px;width:50px;")
+                    div.setAttribute("style"," color:red;background-color:#d6d5d5;height:50px;width:50px;")
                     tr.appendChild(div)
                 }
             }
@@ -94,7 +96,7 @@ function startGame()
                 if (x % 2 == 0 )
                 {
                     div = document.createElement("th")
-                    div.setAttribute("style"," color:red;background-color:white;height:50px;width:50px; ")
+                    div.setAttribute("style"," color:red;background-color:#d6d5d5;height:50px;width:50px;")
                     tr.appendChild(div)
                 }
                 else if (x % 2 != 0)
@@ -110,6 +112,10 @@ function startGame()
 
                 piondiv = document.createElement("div")
                 piondiv.setAttribute("style","background-color:red;width:30px;height:30px;border-radius:25px;margin:auto;")
+                piondiv.setAttribute("class", "item")
+                piondiv.setAttribute("draggable", "true")
+                piondiv.setAttribute("id","pionR"+x)
+                
                 div.appendChild(piondiv)
                 
             }
@@ -117,7 +123,11 @@ function startGame()
             else if (tray[y][x] === "pionW")
             {
                 piondiv = document.createElement("div")
-                piondiv.setAttribute("style","background-color:white;width:30px;height:30px;border-radius:25px;margin:auto;")
+                piondiv.setAttribute("style","background-color:#fff;width:30px;height:30px;border-radius:25px;margin:auto;")
+                piondiv.setAttribute("class", "item")
+                piondiv.setAttribute("draggable", "true")
+                piondiv.setAttribute("id","pionW"+x)
+                piondiv.addEventListener("click", deplacement) 
                 div.appendChild(piondiv)
             }
            
@@ -135,13 +145,18 @@ function startGame()
     }
 }
 
-function game()
+function deplacement()
 {
     // deplacement : pour pouvoir se deplacer remarque
     // selon le pion de couleur il doit aller plus haut ou plus bas 
     // et doit etre inferieure ou supperieure de 1 mais strictement 1
     // le rouge  avance de bas en haut tanids que les blacn se deplace de haut en bas
     // si il a un pion de sa couleure le pion  ne peux avancer sur cette case la 
+    // select the item element
+    //pas de drag and drop pour un autre jeux de plateau 
+    // 
+
 
 }
+
 
