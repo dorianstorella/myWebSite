@@ -61,8 +61,7 @@ function startGame()
     plateau.setAttribute("style", "background-color:black;height:500px;width:500px;")
     document.getElementById('body').appendChild(plateau)
    
-    tr = document.createElement("tr")
-    plateau.appendChild(tr)
+   
     
     // tray.forEach(element => {
     //     console.log(element+"")
@@ -71,7 +70,10 @@ function startGame()
     
     for (let y = 0 ; y < 10 ; y++)
     {   
-      
+        tr = document.createElement("tr")
+        tr.setAttribute("id",y)
+        plateau.appendChild(tr)
+
         for (let x = 0 ; x < 10 ; x++ )
         {   
             if (y % 2 == 0)
@@ -115,7 +117,7 @@ function startGame()
                 piondiv.setAttribute("class", "item")
                 piondiv.setAttribute("draggable", "true")
                 piondiv.setAttribute("id","pionR"+x)
-                
+                piondiv.addEventListener("click", deplacement) 
                 div.appendChild(piondiv)
                 
             }
@@ -127,17 +129,15 @@ function startGame()
                 piondiv.setAttribute("class", "item")
                 piondiv.setAttribute("draggable", "true")
                 piondiv.setAttribute("id","pionW"+x)
-                piondiv.addEventListener("click", deplacement) 
+                piondiv.addEventListener("click", deplacement)
                 div.appendChild(piondiv)
             }
            
-            
+
         }
 
-        if (y < 9)
-        
-            tr = document.createElement("tr")
-            plateau.appendChild(tr)
+      
+         
         //afficher regle
         //une case avec  ne plus afficher se message == bool sur restart
         // voir si reprendre la boucle for si faut reafficher 
@@ -145,7 +145,7 @@ function startGame()
     }
 }
 
-function deplacement()
+function deplacement(button)
 {
     // deplacement : pour pouvoir se deplacer remarque
     // selon le pion de couleur il doit aller plus haut ou plus bas 
@@ -154,7 +154,9 @@ function deplacement()
     // si il a un pion de sa couleure le pion  ne peux avancer sur cette case la 
     // select the item element
     //pas de drag and drop pour un autre jeux de plateau 
-    // 
+    parentligne = parseInt(button.explicitOriginalTarget.parentElement.parentElement.id)
+   
+    console.log(parseInt(parentligne+1));
 
 
 }
