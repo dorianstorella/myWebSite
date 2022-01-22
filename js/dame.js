@@ -71,7 +71,7 @@ function startGame()
     for (let y = 0 ; y < 10 ; y++)
     {   
         tr = document.createElement("tr")
-        tr.setAttribute("id",y)
+       
         plateau.appendChild(tr)
 
         for (let x = 0 ; x < 10 ; x++ )
@@ -154,9 +154,35 @@ function deplacement(button)
     // si il a un pion de sa couleure le pion  ne peux avancer sur cette case la 
     // select the item element
     //pas de drag and drop pour un autre jeux de plateau 
-    parentligne = parseInt(button.explicitOriginalTarget.parentElement.parentElement.id)
-   
-    console.log(parseInt(parentligne+1));
+    parentligne = button.explicitOriginalTarget.parentElement.parentElement.previousElementSibling
+    parentnext = button.explicitOriginalTarget.parentElement.parentElement.nextElementSibling
+    cell = button.explicitOriginalTarget.offsetParent.cellIndex
+    thisCellRed = parentnext.cells
+    thisCellWhite = parentligne.cells
+    
+    console.log(button)
+    
+    //pour le rouge  
+    for (let i = 0; i < 10; i++) {
+        if (thisCellRed[i].cellIndex - 1 == cell || thisCellRed[i].cellIndex + 1 == cell ){
+            console.log(thisCellRed[i])
+            //rajouter evenement click pour mettre le pion dans la bonne balise html 
+        }
+    }
+    for (let i = 0; i < 10; i++) {
+        if (thisCellWhite[i].cellIndex - 1 == cell || thisCellWhite[i].cellIndex + 1 == cell ){
+            console.log(thisCellWhite[i])
+            //rajouter evenement click pour mettre le pion dans la bonne balise html 
+        }
+    }
+
+    //console.log(thisCell);
+    //console.log(cell)
+
+    //console.log(parentligne)
+    //console.log(parentnext)
+   // console.log(color)
+
 
 
 }
