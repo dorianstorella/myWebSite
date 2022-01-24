@@ -2,6 +2,7 @@
 game = document.getElementById("newGame");
 
 game.addEventListener("click", startGame) 
+game.addEventListener("click", updateGame) 
 
 const rougeInput = document.createElement("input")
 rougeInput.setAttribute("type", "radio")
@@ -32,6 +33,25 @@ function startGame()
     game.setAttribute("style","display:none")
     
     //refaire avec un for
+    
+   // console.log(tray[0][0])
+   // condition si pas de couleur choisie 
+    color = document.querySelector("input[name=color]:checked").value;
+    
+    rougeInput.setAttribute("style","display:none")
+    rougeLabel.setAttribute("style","display:none")
+    blancInput.setAttribute("style","display:none")
+    blancLabel.setAttribute("style","display:none")
+   
+    affichage()
+   
+        //afficher regle
+        // drag and drop https://www.javascripttutorial.net/web-apis/javascript-drag-and-drop/
+    
+}
+
+function updateGame()
+{
     let tray = 
     [
         ["pionR", 000, "pionR", 000, "pionR", 000, "pionR",000, "pionR", 000],
@@ -45,29 +65,90 @@ function startGame()
         ["pionW", 000, "pionW", 000, "pionW", 0, "pionW", 000, "pionW",000],   
         [000,"pionW", 000, "pionW", 000, "pionW", 000, "pionW", 000, "pionW"],
     ]
-   // console.log(tray[0][0])
-   // condition si pas de couleur choisie 
-    color = document.querySelector("input[name=color]:checked").value;
+    //deplacement()
+    return tray
+}
+function deplacement(pion)
+{   
     
-   
-
-    rougeInput.setAttribute("style","display:none")
-    rougeLabel.setAttribute("style","display:none")
-    blancInput.setAttribute("style","display:none")
-    blancLabel.setAttribute("style","display:none")
+    //affichage(tray)
+    // deplacement : pour pouvoir se deplacer remarque
+    // selon le pion de couleur il doit aller plus haut ou plus bas 
+    // et doit etre inferieure ou supperieure de 1 mais strictement 1
+    // le rouge  avance de bas en haut tanids que les blacn se deplace de haut en bas
+    // si il a un pion de sa couleure le pion  ne peux avancer sur cette case la 
+    // select the item element
+    //pas de drag and drop pour un autre jeux de plateau 
+    parentligne = pion.explicitOriginalTarget.parentElement.parentElement.previousElementSibling
+    parentnext = pion.explicitOriginalTarget.parentElement.parentElement.nextElementSibling
+    cell = pion.explicitOriginalTarget.offsetParent.cellIndex
+    thisCellRed = parentnext.cells
+    thisCellWhite = parentligne.cells
     
+    console.log(pion)
+    
+    //pour le rouge 
+    if (color == "rouge")
+    {
+        
+        for (let i = 0; i < 10; i++)
+        {
+            if (thisCellRed[i].cellIndex - 1 == cell || thisCellRed[i].cellIndex + 1 == cell )
+            {
+                console.log(thisCellRed[i])
+                let possible = thisCellRed[i]
+                possible.addEventListener("click", value)
+                
+                
+                
+            } else 
+            {
+                let possible = thisCellRed[i]
+                possible.removeEventListener("click", value)
+                
+            }
+        }
 
+    }
+
+    if (color == "blanc")
+    {
+        for (let i = 0; i < 10; i++) 
+        {
+            if (thisCellWhite[i].cellIndex - 1 == cell || thisCellWhite[i].cellIndex + 1 == cell )
+            {
+                console.log(thisCellWhite[i])
+                //rajouter evenement click pour mettre le pion dans la bonne balise html 
+                console.log('hey')
+            }
+        }
+    }
+    
+    //console.log(thisCell);
+    //console.log(cell)
+
+    //console.log(parentligne)
+    //console.log(parentnext)
+   // console.log(color)
+
+
+
+}
+
+function affichage()
+{   
+    
+    table = document.getElementById('table')
+    if (table != null) table.remove()
+    //table.parentNode.removeChild(table)
+
+    tray = updateGame()
+
+    //console.log(tray[0][0])
     plateau = document.createElement("table")
     plateau.setAttribute("style", "background-color:black;height:500px;width:500px;")
+    plateau.setAttribute("id", "table")
     document.getElementById('body').appendChild(plateau)
-   
-   
-    
-    // tray.forEach(element => {
-    //     console.log(element+"")
-    // });
-  
-    
     for (let y = 0 ; y < 10 ; y++)
     {   
         tr = document.createElement("tr")
@@ -135,56 +216,9 @@ function startGame()
            
 
         }
-
-      
-         
-        //afficher regle
-        //une case avec  ne plus afficher se message == bool sur restart
-        // voir si reprendre la boucle for si faut reafficher 
-        // drag and drop https://www.javascripttutorial.net/web-apis/javascript-drag-and-drop/
     }
 }
-
-function deplacement(button)
+function value() 
 {
-    // deplacement : pour pouvoir se deplacer remarque
-    // selon le pion de couleur il doit aller plus haut ou plus bas 
-    // et doit etre inferieure ou supperieure de 1 mais strictement 1
-    // le rouge  avance de bas en haut tanids que les blacn se deplace de haut en bas
-    // si il a un pion de sa couleure le pion  ne peux avancer sur cette case la 
-    // select the item element
-    //pas de drag and drop pour un autre jeux de plateau 
-    parentligne = button.explicitOriginalTarget.parentElement.parentElement.previousElementSibling
-    parentnext = button.explicitOriginalTarget.parentElement.parentElement.nextElementSibling
-    cell = button.explicitOriginalTarget.offsetParent.cellIndex
-    thisCellRed = parentnext.cells
-    thisCellWhite = parentligne.cells
-    
-    console.log(button)
-    
-    //pour le rouge  
-    for (let i = 0; i < 10; i++) {
-        if (thisCellRed[i].cellIndex - 1 == cell || thisCellRed[i].cellIndex + 1 == cell ){
-            console.log(thisCellRed[i])
-            //rajouter evenement click pour mettre le pion dans la bonne balise html 
-        }
-    }
-    for (let i = 0; i < 10; i++) {
-        if (thisCellWhite[i].cellIndex - 1 == cell || thisCellWhite[i].cellIndex + 1 == cell ){
-            console.log(thisCellWhite[i])
-            //rajouter evenement click pour mettre le pion dans la bonne balise html 
-        }
-    }
-
-    //console.log(thisCell);
-    //console.log(cell)
-
-    //console.log(parentligne)
-    //console.log(parentnext)
-   // console.log(color)
-
-
-
+    console.log('hey')
 }
-
-
