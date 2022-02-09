@@ -63,12 +63,12 @@ function startGame()
     
 }
 
-function updateGame()
-{
-    
-    //selectionPion()
-    return tray
-}
+// function updateGame()
+// {
+                                    // pas utile pour linstant
+//     //selectionPion()
+//     return tray
+// }
 
 function selectionPion(pion)
 {   
@@ -142,15 +142,15 @@ function selectionCase(thiscase)
     cellcaseX = thiscase.originalTarget.cellIndex
     cellcaseY = thiscase.originalTarget.parentElement.rowIndex
     
-    console.log("case siblée x "+cellcaseX)
-    console.log("case siblée Y "+cellcaseY)
+    // console.log("case siblée x "+cellcaseX)
+    // console.log("case siblée Y "+cellcaseY)
 
     
-    console.log("pion x "+cellx)
-    console.log("pion y"+cellY)
+    // console.log("pion x "+cellx)
+    // console.log("pion y"+cellY)
     
     temp = tray[cellY][cellx]
-     tray[cellY][cellx]  =tray[cellcaseY][cellcaseX]
+    tray[cellY][cellx]  = tray[cellcaseY][cellcaseX]
     tray[cellcaseY][cellcaseX] = temp
     
     console.log(tray[cellcaseY][cellcaseY])
@@ -222,7 +222,7 @@ function affichage()
                 piondiv.setAttribute("class", "item")
                 piondiv.setAttribute("draggable", "true")
                 piondiv.setAttribute("id","pionR"+x)
-                piondiv.addEventListener("click", selectionPion) 
+                piondiv.addEventListener("click", selectionPion) // peut etre supprimé et ajouté dans la fonction ou on voit les deplacement
                 div.appendChild(piondiv)
                 
             }
@@ -240,5 +240,5 @@ function affichage()
         }
     }
 }
-
+//faire un fonction pour voir quel pion peut faire un deplacement
 
