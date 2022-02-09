@@ -27,6 +27,19 @@ document.body.insertBefore(rougeInput,rougeLabel)
 document.body.insertBefore(blancLabel, game)
 document.body.insertBefore(blancInput,blancLabel)
 
+let tray = 
+[
+    ["pionR", 000, "pionR", 000, "pionR", 000, "pionR",000, "pionR", 000],
+    [000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR"],
+    ["pionR", 000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR", 000],
+    [000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR"],
+    ["  ", 000, "  ", 000, "  ", 000, "  ", 000, "  ", 000],
+    [000, "  ", 000, "  ", 000, "  ", 000, "  ", 000, "  "],
+    ["pionW", 000, "pionW", 000, "pionW", 000, "pionW", 000, "pionW", 000],
+    [000, "pionW", 000, "pionW", 000, "pionW", 000, "pionW", 000, "pionW"],
+    ["pionW", 000, "pionW", 000, "pionW", 0, "pionW", 000, "pionW",000],   
+    [000,"pionW", 000, "pionW", 000, "pionW", 000, "pionW", 000, "pionW"],
+]
 function startGame() 
 {   
 
@@ -52,27 +65,16 @@ function startGame()
 
 function updateGame()
 {
-    let tray = 
-    [
-        ["pionR", 000, "pionR", 000, "pionR", 000, "pionR",000, "pionR", 000],
-        [000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR"],
-        ["pionR", 000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR", 000],
-        [000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR"],
-        ["  ", 000, "  ", 000, "  ", 000, "  ", 000, "  ", 000],
-        [000, "  ", 000, "  ", 000, "  ", 000, "  ", 000, "  "],
-        ["pionW", 000, "pionW", 000, "pionW", 000, "pionW", 000, "pionW", 000],
-        [000, "pionW", 000, "pionW", 000, "pionW", 000, "pionW", 000, "pionW"],
-        ["pionW", 000, "pionW", 000, "pionW", 0, "pionW", 000, "pionW",000],   
-        [000,"pionW", 000, "pionW", 000, "pionW", 000, "pionW", 000, "pionW"],
-    ]
-    //deplacement()
+    
+    //selectionPion()
     return tray
 }
-function deplacement(pion)
+
+function selectionPion(pion)
 {   
     
     //affichage(tray)
-    // deplacement : pour pouvoir se deplacer remarque
+    // selectionPion : pour pouvoir se deplacer remarque
     // selon le pion de couleur il doit aller plus haut ou plus bas 
     // et doit etre inferieure ou supperieure de 1 mais strictement 1
     // le rouge  avance de bas en haut tanids que les blacn se deplace de haut en bas
@@ -81,30 +83,31 @@ function deplacement(pion)
     //pas de drag and drop pour un autre jeux de plateau 
     parentligne = pion.explicitOriginalTarget.parentElement.parentElement.previousElementSibling
     parentnext = pion.explicitOriginalTarget.parentElement.parentElement.nextElementSibling
-    cell = pion.explicitOriginalTarget.offsetParent.cellIndex
+    cellx = pion.explicitOriginalTarget.offsetParent.cellIndex
     thisCellRed = parentnext.cells
     thisCellWhite = parentligne.cells
+    cellY =  pion.explicitOriginalTarget.parentElement.parentElement.rowIndex
     
     console.log(pion)
-    
+    //console.log(cellx)
     //pour le rouge 
     if (color == "rouge")
     {
         
         for (let i = 0; i < 10; i++)
         {
-            if (thisCellRed[i].cellIndex - 1 == cell || thisCellRed[i].cellIndex + 1 == cell )
+            if (thisCellRed[i].cellIndex - 1 == cellx || thisCellRed[i].cellIndex + 1 == cellx )
             {
-                console.log(thisCellRed[i])
+                //console.log(thisCellRed[i])
                 let possible = thisCellRed[i]
-                possible.addEventListener("click", value)
+                possible.addEventListener("click", selectionCase)
                 
                 
                 
             } else 
             {
                 let possible = thisCellRed[i]
-                possible.removeEventListener("click", value)
+                possible.removeEventListener("click", selectionCase)
                 
             }
         }
@@ -131,8 +134,29 @@ function deplacement(pion)
     //console.log(parentnext)
    // console.log(color)
 
+   
+}
 
+function selectionCase(thiscase) 
+{   
+    cellcaseX = thiscase.originalTarget.cellIndex
+    cellcaseY = thiscase.originalTarget.parentElement.rowIndex
+    
+    console.log("case siblée x "+cellcaseX)
+    console.log("case siblée Y "+cellcaseY)
 
+    
+    console.log("pion x "+cellx)
+    console.log("pion y"+cellY)
+    
+    temp = tray[cellY][cellx]
+     tray[cellY][cellx]  =tray[cellcaseY][cellcaseX]
+    tray[cellcaseY][cellcaseX] = temp
+    
+    console.log(tray[cellcaseY][cellcaseY])
+    
+    affichage()
+    //prendre le pion sur leque on avais l evenement  et on le place dans la div de la case ou il click 
 }
 
 function affichage()
@@ -198,7 +222,7 @@ function affichage()
                 piondiv.setAttribute("class", "item")
                 piondiv.setAttribute("draggable", "true")
                 piondiv.setAttribute("id","pionR"+x)
-                piondiv.addEventListener("click", deplacement) 
+                piondiv.addEventListener("click", selectionPion) 
                 div.appendChild(piondiv)
                 
             }
@@ -210,15 +234,11 @@ function affichage()
                 piondiv.setAttribute("class", "item")
                 piondiv.setAttribute("draggable", "true")
                 piondiv.setAttribute("id","pionW"+x)
-                piondiv.addEventListener("click", deplacement)
+                piondiv.addEventListener("click", selectionPion)
                 div.appendChild(piondiv)
             }
-           
-
         }
     }
 }
-function value() 
-{
-    console.log('hey')
-}
+
+
