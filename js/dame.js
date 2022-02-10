@@ -28,6 +28,7 @@ document.body.insertBefore(blancLabel, game)
 document.body.insertBefore(blancInput,blancLabel)
 
 tourcolor = "rouge"
+tourcolor2 = "blanc"
 let tray = 
 [
     ["pionR", 000, "pionR", 000, "pionR", 000, "pionR",000, "pionR", 000],
@@ -70,12 +71,15 @@ function updateGame()
 
 function selectionPion(pion)
 {   
-    parentligne = pion.explicitOriginalTarget.parentElement
+    parentligne = pion.explicitOriginalTarget.parentElement.parentElement.previousElementSibling
     parentnext = pion.explicitOriginalTarget.parentElement.parentElement.nextElementSibling
     cellx = pion.explicitOriginalTarget.offsetParent.cellIndex
-    thisCellRed = parentnext.cells
-    thisCellWhite = parentligne.cells
     cellY =  pion.explicitOriginalTarget.parentElement.parentElement.rowIndex
+    
+    thisCellWhite = parentligne.cells
+    thisCellRed = parentnext.cells
+    
+    console.log(tray[cellY][cellx]);
     
     console.log(pion)
     
@@ -84,10 +88,12 @@ function selectionPion(pion)
         
         for (let i = 0; i < 10; i++)
         {
-            if (thisCellRed[i].cellIndex - 1 == cellx || thisCellRed[i].cellIndex + 1 == cellx )
+            if (tray[cellY+1][cellx+1] == "  "|| tray[cellY+1][cellx-1] == "  ")
             {
                 //console.log(thisCellRed[i])
                 let possible = thisCellRed[i]
+                
+                //mettre a toute les case possible cet event
                 possible.addEventListener("click", selectionCase)
                 
             } 
@@ -101,22 +107,29 @@ function selectionPion(pion)
 
     }
 
-    else if (tourcolor == "blanc")
+    if (tourcolor2 == "blanc")
     {
         for (let i = 0; i < 10; i++) 
         {
-            if (thisCellWhite[i].cellIndex - 1 == cell || thisCellWhite[i].cellIndex + 1 == cell )
+            if (tray[cellY-1][cellx+1] == "  "|| tray[cellY-1][cellx-1] == "  ")
             {
+                let possible = thisCellWhite[i]
                 console.log(thisCellWhite[i])
-             
-                console.log('hey')
+                possible.addEventListener("click", selectionCase)
+                
+            } 
+            else 
+            {
+                let possible = thisCellWhite[i]
+                possible.removeEventListener("click", selectionCase)
+                
             }
         }
     }
     
 }
 
-function selectionCase(thiscase) 
+function selectionCase(thiscase)  // a mettre peut etre dans  boucle sur forgame()
 {   
     cellcaseX = thiscase.originalTarget.cellIndex
     cellcaseY = thiscase.originalTarget.parentElement.rowIndex
@@ -127,7 +140,7 @@ function selectionCase(thiscase)
     
     console.log(tray[cellcaseY][cellcaseY])
     
-   affichage()
+   affichage() // a remettre en fin de boucle sur forgame()
 
 }
 //faire un fonction pour voir quel pion peut faire un deplacement
@@ -164,6 +177,27 @@ function possibleMovement(tourcolor) // regarder quel boutton peut se deplacer s
     if (tourcolor == "blanc")
     {
         poss = document.getElementsByClassName("pionW")
+        for (let index = 0; index < poss.length; index++) 
+        {
+            const element = poss[index];
+            possY = poss[index].offsetParent.parentElement.rowIndex
+            possX = poss[index].offsetParent.cellIndex
+            
+            if(tray[possY-1][possX-1] == "  " || tray[possY-1][possX+1] == "  " )
+            {
+                element.addEventListener("click", selectionPion)
+            }
+            else if (tray[possY-1][possX-1] == "pionR" && tray[possY-2][possX-2] == "  " )
+            {
+                
+                element.addEventListener("click", selectionPion)
+            }
+            else if (tray[possY-1][possX+1] == "pionR" && tray[possY-2][possX+2] == "  " )
+            {
+                element.addEventListener("click", selectionPion)
+            }
+           
+        }
         //console.log(poss)
     }
 }
@@ -255,9 +289,7 @@ function affichage()
                 piondiv = document.createElement("div")
                 piondiv.setAttribute("style","background-color:red;width:30px;height:30px;border-radius:25px;margin:auto;")
                 piondiv.setAttribute("class", "pionR")
-                piondiv.setAttribute("draggable", "true")
                 piondiv.setAttribute("id","pionR"+x)
-                //piondiv.addEventListener("click", selectionPion) // peut etre supprimé et ajouté dans la fonction ou on voit les deplacement selon le tour du joueur permeterara davoir que les pion qui peuvent se deplacer
                 div.appendChild(piondiv)
                 
             }
@@ -267,12 +299,11 @@ function affichage()
                 piondiv = document.createElement("div")
                 piondiv.setAttribute("style","background-color:#fff;width:30px;height:30px;border-radius:25px;margin:auto;")
                 piondiv.setAttribute("class", "pionW")
-                piondiv.setAttribute("draggable", "true")
                 piondiv.setAttribute("id","pionW"+x)
-                piondiv.addEventListener("click", selectionPion)
                 div.appendChild(piondiv)
             }
            
+            possibleMovement(tourcolor2)
             possibleMovement(tourcolor)
             
         }
