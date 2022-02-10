@@ -93,7 +93,7 @@ function selectionPion(pion)
     
     //console.log(cellx)
     //pour le rouge 
-    /*
+    
     if (tourcolor == "rouge")
     {
         
@@ -103,14 +103,14 @@ function selectionPion(pion)
             {
                 //console.log(thisCellRed[i])
                 let possible = thisCellRed[i]
-                //possible.addEventListener("click", selectionCase)
+                possible.addEventListener("click", selectionCase)
                 
                 
                 
             } else 
             {
                 let possible = thisCellRed[i]
-                //possible.removeEventListener("click", selectionCase)
+                possible.removeEventListener("click", selectionCase)
                 
             }
         }
@@ -129,7 +129,7 @@ function selectionPion(pion)
             }
         }
     }
-    */
+    
     //console.log(thisCell);
     //console.log(cell)
 
@@ -163,11 +163,24 @@ function selectionCase(thiscase)
 //faire un fonction pour voir quel pion peut faire un deplacement
 function possibleMovement(tourcolor) // regarder quel boutton peut se deplacer selon le tour du jouieur 
 {   
-    
+
     if (tourcolor == "rouge")
     {
         poss = document.getElementsByClassName("pionR")
-       
+        for (let index = 0; index < poss.length; index++) 
+        {
+            const element = poss[index];
+            possY = poss[index].offsetParent.parentElement.rowIndex
+            possX = poss[index].offsetParent.cellIndex
+            
+            if(tray[possY+1][possX+1] == "  " || tray[possY+1][possX-1] == "  " )
+            {
+                element.addEventListener("click", selectionPion)
+
+            }
+            
+            
+        }
         
         
     }
@@ -175,14 +188,10 @@ function possibleMovement(tourcolor) // regarder quel boutton peut se deplacer s
     if (tourcolor == "blanc")
     {
         poss = document.getElementsByClassName("pionW")
-        console.log(poss)
+        //console.log(poss)
     }
 
-    for (let index = 0; index < poss.length; index++) {
-            const element = poss[index];
-
-            console.log(poss[index])
-        }
+    
     //console.log(cellY+" - "+cellx );
     // set le selectionPion() 
     /// ajouter les event selection boutton selon la couleur de la boucle 
@@ -287,7 +296,7 @@ function affichage()
                 piondiv.setAttribute("class", "pionR")
                 piondiv.setAttribute("draggable", "true")
                 piondiv.setAttribute("id","pionR"+x)
-                piondiv.addEventListener("click", selectionPion) // peut etre supprimé et ajouté dans la fonction ou on voit les deplacement selon le tour du joueur permeterara davoir que les pion qui peuvent se deplacer
+                //piondiv.addEventListener("click", selectionPion) // peut etre supprimé et ajouté dans la fonction ou on voit les deplacement selon le tour du joueur permeterara davoir que les pion qui peuvent se deplacer
                 div.appendChild(piondiv)
                 
             }
