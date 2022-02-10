@@ -147,6 +147,16 @@ function possibleMovement(tourcolor) // regarder quel boutton peut se deplacer s
             {
                 element.addEventListener("click", selectionPion)
             }
+            else if (tray[possY+1][possX+1] == "pionW" && tray[possY+2][possX+2] == "  " )
+            {
+                
+                element.addEventListener("click", selectionPion)
+            }
+            else if (tray[possY+1][possX-1] == "pionW" && tray[possY+2][possX-2] == "  " )
+            {
+                element.addEventListener("click", selectionPion)
+            }
+           
         }
         
     }
