@@ -27,6 +27,7 @@ document.body.insertBefore(rougeInput,rougeLabel)
 document.body.insertBefore(blancLabel, game)
 document.body.insertBefore(blancInput,blancLabel)
 
+tourcolor = "rouge"
 let tray = 
 [
     ["pionR", 000, "pionR", 000, "pionR", 000, "pionR",000, "pionR", 000],
@@ -57,6 +58,7 @@ function startGame()
     blancLabel.setAttribute("style","display:none")
    
     affichage()
+    
     forgame()
    
         //afficher regle
@@ -82,7 +84,7 @@ function selectionPion(pion)
     // si il a un pion de sa couleure le pion  ne peux avancer sur cette case la 
     // select the item element
     //pas de drag and drop pour un autre jeux de plateau 
-    parentligne = pion.explicitOriginalTarget.parentElement.parentElement.previousElementSibling
+    parentligne = pion.explicitOriginalTarget.parentElement
     parentnext = pion.explicitOriginalTarget.parentElement.parentElement.nextElementSibling
     cellx = pion.explicitOriginalTarget.offsetParent.cellIndex
     thisCellRed = parentnext.cells
@@ -136,7 +138,8 @@ function selectionPion(pion)
     //console.log(parentligne)
     //console.log(parentnext)
    // console.log(color)
-
+ 
+   
    
 }
 
@@ -157,7 +160,8 @@ function selectionCase(thiscase)
     
     console.log(tray[cellcaseY][cellcaseY])
     
-    affichage()
+   affichage()
+    
     //prendre le pion sur leque on avais l evenement  et on le place dans la div de la case ou il click 
 }
 //faire un fonction pour voir quel pion peut faire un deplacement
@@ -201,7 +205,7 @@ function possibleMovement(tourcolor) // regarder quel boutton peut se deplacer s
 function forgame() // boucle pour simulker la game
 {   
     game = true
-    tourcolor = "rouge"
+    
     nbrpionRouge = 3
     nbrpionblanc = 3
     for(i = 0; game; i++)
@@ -209,8 +213,7 @@ function forgame() // boucle pour simulker la game
        
         if (tourcolor == "rouge")
         {   
-            possibleMovement(tourcolor)
-           
+            
             
             // attClick.addEventListener('click', function(){
             if(nbrpionRouge == 0){game = false}
@@ -221,7 +224,6 @@ function forgame() // boucle pour simulker la game
         }
         if (tourcolor == "blanc")
         {   
-            possibleMovement(tourcolor)
             
             
             if(nbrpionblanc == 0){game = false}
@@ -311,6 +313,9 @@ function affichage()
                 piondiv.addEventListener("click", selectionPion)
                 div.appendChild(piondiv)
             }
+           
+            possibleMovement(tourcolor)
+            
         }
     }
 }
