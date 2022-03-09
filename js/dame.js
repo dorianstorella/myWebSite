@@ -32,15 +32,18 @@ tourcolor = "rouge"
 count = 0
 let tray = 
 [
-    ["pionR", 000, "pionR", 000, "pionR", 000, "pionR",000],
-    [000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR"],
-    ["pionR", 000, "pionR", 000, "pionR", 000, "pionR", 000],
+    [000 ,"pionR", 000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR"],
+    ["pionR", 000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR", 000],
+    [000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR"],
+    ["pionR" , 000, "pionR", 000, "pionR", 000, "pionR", 000, "pionR",000],
     ["  ", 000, "  ", 000, "  ", 000, "  ", 000],
     [000, "  ", 000, "  ", 000, "  ", 000, "  "],
-    [000, "pionW", 000, "pionW", 000, "pionW", 000, "pionW"],
-    ["pionW", 000, "pionW", 000, "pionW", 000, "pionW", 000],   
-    [000,"pionW", 000, "pionW", 000, "pionW", 000, "pionW"]
+    [ 000, "pionW", 000, "pionW", 000, "pionW", 000, "pionW",000, "pionW"], 
+    ["pionW", 000,"pionW", 000, "pionW", 000, "pionW", 000, "pionW", 000,],
+    [000, "pionW", 000, "pionW", 000, "pionW", 000, "pionW", 000, "pionW"],   
+    ["pionW", 000, "pionW", 000, "pionW", 000, "pionW", 000, "pionW", 000]
 ]
+
 function startGame() 
 {   
 
@@ -69,18 +72,25 @@ function updateGame()
 }
 
 function selectionPion(pion)
-{    
+{   
     parentligne = pion.explicitOriginalTarget.parentElement.parentElement.previousElementSibling
     parentnext = pion.explicitOriginalTarget.parentElement.parentElement.nextElementSibling
+    
     cellx = pion.explicitOriginalTarget.offsetParent.cellIndex
     cellY =  pion.explicitOriginalTarget.parentElement.parentElement.rowIndex
     
     thisCellWhite = parentligne.cells
     thisCellRed = parentnext.cells
+    // let n = 1
+    // let pionTakeByTag = document.getElementsByTagName("tr")[cellY+1].children[cellx+1]
+    //console.log(pionTakeByTag)
+    
+    console.log(" case parente ligne : ->")
+    console.log(thisCellRed)
     
     console.log(tray[cellY][cellx]);
     
-    console.log(pion)
+    console.log(pion.explicitOriginalTarget.parentElement.parentElement)
     
     if (tourcolor == "rouge")
     {
@@ -96,16 +106,42 @@ function selectionPion(pion)
                 possible.addEventListener("click", selectionCase)
                 
             }
-            else if(tray[cellY+1][cellx+1] == "pionW" && tray[cellY+2][cellx+2] == "  " )
-            {
-               console.log("hello")
+/*ajouter*/ else if(tray[cellY+1][cellx+1] == "pionW" && tray[cellY+2][cellx+2] == "  " )
+/*cette */  {  
+/*section*/     bol = true
+                for (j=1; bol; j++)
+                {
+    /*au blanc*/    for (y=1; bol; y++)
+                    {                       
+                        if(tray[cellY+j][cellx+y] == "pionW" && tray[cellY+(j+1)][cellx+(y+1)] == "  ")
+                        {   
+                            let pionTakeByTag = document.getElementsByTagName("tr")[cellY+j+1].children[cellx+y+1]
+                            //console.log(pionTakeByTag)
+                            let possible = pionTakeByTag 
+                            possible.addEventListener("click", selectionCase)
+                            //prendre le pion saute dans array et supprime dans selectioncase()
+                            // set sur chaque instance un << click , slectioncase >>
+                            
+                            
+                        }
+                        else if (tray[cellY+j][cellx-y] == "pionW" && tray[cellY+(j-1)][cellx+(y-1)] == "  ")
+                        {
+                            //prendre le pion saute dans array et supprime dans selectioncase()
+                            // set sur chaque instance un << click , slectioncase >>
+                            console.log(tray[cellY+j][cellx+y])
+                        }
+                        else // (tray[cellY+j][cellx+y] == "pionW"  && tray[cellY+j+1][cellx+y+1] == "pionW")
+                        {
+                            bol = false;
+                        }
+                    
+                    }
+                }
             }
-            else 
-            {
-                let possible = thisCellRed[i]
-                possible.removeEventListener("click", selectionCase)
-                
-            }
+           
+
+
+
 
             if (tray[cellY+1][cellx-1] == "  ")
             {
@@ -115,6 +151,24 @@ function selectionPion(pion)
                 //mettre a toute les case possible cet event
                 possible.addEventListener("click", selectionCase)
                 
+            }
+            else if(tray[cellY+1][cellx-1] == "pionW" && tray[cellY+2][cellx-2] == "  " ) // peut etre doubler la coudition, avec un OR pou voir de lautre sens 
+            {  
+                
+               bol = true
+               for (y=1; bol; y++)
+               {
+                    if(tray[cellY+i][cellx+i] == "pionW" && tray[cellY+i+1][cellx+i+1] == "  ")
+                    {
+                        //prendre le pion saute dans array et supprime dans selectioncase()
+                        // set sur chaque instance un << click , slectioncase >>
+                    }
+                    else if (tray[cellY-i][cellx-i] == "pionW" && tray[cellY+i-1][cellx+i-1] == "  ")
+                    {
+                        //prendre le pion saute dans array et supprime dans selectioncase()
+                        // set sur chaque instance un << click , slectioncase >>
+                    }
+               }
             } 
             else 
             {
@@ -167,10 +221,12 @@ function selectionPion(pion)
 }
 
 function selectionCase(thiscase)  // a mettre peut etre dans  boucle sur forgame()
-{   
+{           // pos du pion sur lequel on click
     cellcaseX = thiscase.originalTarget.cellIndex  
     cellcaseY = thiscase.originalTarget.parentElement.rowIndex 
     
+    // ajouter un tableau des pion et leur position a retirer  de notre tableauplateau 
+
     temp = tray[cellY][cellx]
     tray[cellY][cellx]  = tray[cellcaseY][cellcaseX]
     tray[cellcaseY][cellcaseX] = temp
@@ -253,27 +309,27 @@ function affichage()
     plateau.setAttribute("style", "background-color:black;height:500px;width:500px;")
     plateau.setAttribute("id", "table")
     document.getElementById('body').appendChild(plateau)
-    for (let y = 0 ; y < 8 ; y++)
+    for (let y = 0 ; y < 10 ; y++)
     {   
         tr = document.createElement("tr")
         
         plateau.appendChild(tr)
 
-        for (let x = 0 ; x < 8 ; x++ )
+        for (let x = 0 ; x < 10 ; x++ )
         {   
             if (y % 2 == 0)
             {
                 if (x % 2 == 0 )
                 {
                     div = document.createElement("th")
-                    div.setAttribute("style"," color:red;background-color:black;height:50px;width:50px;")
+                    div.setAttribute("style"," color:red;background-color:#d6d5d5;height:50px;width:50px;")
                     div.setAttribute("class","container-pion")
                     tr.appendChild(div)
                 }
                 else if (x % 2 != 0)
                 {
                     div = document.createElement("th")
-                    div.setAttribute("style"," color:red;background-color:#d6d5d5;height:50px;width:50px;")
+                    div.setAttribute("style"," color:red;background-color:black;height:50px;width:50px;")
                     tr.appendChild(div)
                 }
             }
@@ -283,13 +339,13 @@ function affichage()
                 if (x % 2 == 0 )
                 {
                     div = document.createElement("th")
-                    div.setAttribute("style"," color:red;background-color:#d6d5d5;height:50px;width:50px;")
+                    div.setAttribute("style"," color:red;background-color:black;height:50px;width:50px;")
                     tr.appendChild(div)
                 }
                 else if (x % 2 != 0)
                 {
                     div = document.createElement("th")
-                    div.setAttribute("style"," color:red;background-color:black;height:50px;width:50px; ")
+                    div.setAttribute("style"," color:red;background-color:#d6d5d5;height:50px;width:50px; ")
                     tr.appendChild(div)
                 }
             } 
